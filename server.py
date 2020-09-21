@@ -38,25 +38,25 @@ progress = tqdm.tqdm(range(filesize), f"Receiving {filename}", unit="B", unit_sc
 # Making the copy of file if needed
 counter = 1
 if os.path.exists(filename):
-    # Get file head and extension
-    file_head = filename[:filename.find(".")]
-    file_ext = filename[filename.find("."):]
+	# Get file head and extension
+	file_head = filename[:filename.find(".")]
+	file_ext = filename[filename.find("."):]
 	while os.path.exists(f"{file_head}_copy{counter}{file_ext}"):
 		counter += 1
 	filename = f"{file_head}_copy{counter}{file_ext}"
 
 # Write the file content
 with open(filename, "wb") as f:
-    for _ in progress:
-        # Recieve 1024 bytes from the client
-        bytes_read = client_socket.recv(BUFFER_SIZE)
-        if not bytes_read:
-            # There is no more data to recieve -> end the loop
-            break
+	for _ in progress:
+		# Recieve 1024 bytes from the client
+		bytes_read = client_socket.recv(BUFFER_SIZE)
+		if not bytes_read:
+			# There is no more data to recieve -> end the loop
+			break
 
-        f.write(bytes_read)
-        # Update the proggress bar
-        progress.update(len(bytes_read))
+		f.write(bytes_read)
+		# Update the proggress bar
+		progress.update(len(bytes_read))
 
 # Close the client socket
 client_socket.close()
